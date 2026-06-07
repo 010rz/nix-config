@@ -4,22 +4,43 @@ let
 in
 {
   options.modules.services.daed.enable =
-    lib.mkEnableOption "daed: dae 的 Web UI 透明代理 (Linux 内核 eBPF)";
+    lib.mkEnableOption "daed (官方 docker 镜像 ghcr.io/daeuniverse/daed)";
 
   # ============================================================================
-  # daed 启用后:
-  #   1. 浏览器访问 http://localhost:2023 设管理员账号
-  #   2. 在 Web UI 里加节点订阅、配路由规则、Apply
-  #   3. 系统级流量被透明代理 (不用每个应用单独设 SOCKS5/HTTP_PROXY)
+  # 走官方 OCI 镜像而不是 daeuniverse/flake.nix 的纯 nix 编译：
+  #   - 绕开 daed-pnpm-deps 的 hash mismatch 问题
+  #   - 拿到 1.24.0+ 最新版（nixpkgs 还停在 1.0.0 没人更新）
+  #   - 声明式管理，跟我们 podman 系统集成
   #
-  # 性能：dae 跑在内核 eBPF，比 clash-verge 这种 userspace 代理 CPU 占用低一个量级
-  # 文档: https://github.com/daeuniverse/dae
+  # 启用后：
+  #   1. systemd 起 podman-daed.service 自动拉镜像 + 跑容器
+  #   2. 浏览器开 http://localhost:2023 配账号 + 节点订阅
+  #
+  # 镜像参考 daed 官方 README：privileged + network=host + pid=host
+  # 持久化挂 /etc/daed (节点订阅 / 路由规则 / DB)
   # ============================================================================
   config = lib.mkIf cfg.enable {
-    services.daed = {
-      enable = true;
-      # openFirewall 默认就是关的，不显式写
-      # 想从局域网/平板访问 Web UI 时再加 openFirewall.{port,...} (它是 submodule 不是 bool)
+    # 容器要挂的 /etc/daed 目录在宿主上得先存在
+    systemd.tmpfiles.rules = [
+      "d /etc/daed 0700 root root - -"
+    ];
+
+    virtualisation.oci-containers = {
+      backend = "podman"; # 跟我们已有的 podman 集成 (nvidia-container 那条线)
+      containers.daed = {
+        image = "ghcr.io/daeuniverse/daed:latest";
+        # 想钉版本就把 :latest 改成具体 tag，例如 :v1.24.0
+        autoStart = true;
+        volumes = [
+          "/sys:/sys"
+          "/etc/daed:/etc/daed"
+        ];
+        extraOptions = [
+          "--privileged"
+          "--network=host" # 透明代理需要直接操作宿主网络栈
+          "--pid=host"     # eBPF program 要看宿主进程 cgroup
+        ];
+      };
     };
   };
 }

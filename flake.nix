@@ -20,11 +20,5 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # dae / daed 透明代理 (Linux 内核 eBPF) 官方 flake
-    daeuniverse = {
-      url = "github:daeuniverse/flake.nix";
-      # 不 follow nixpkgs 会拉一整套独立 nixpkgs (~2GB 重复占用)
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }

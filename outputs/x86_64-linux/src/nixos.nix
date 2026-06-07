@@ -18,10 +18,6 @@ let
         "hosts/${hostName}"
       ])
       ++ [
-        # 上游模块（来自 flake input）
-        inputs.daeuniverse.nixosModules.daed
-      ]
-      ++ [
         # 在这里开启这台机器需要的模块
         {
           modules.desktop.wayland.enable = true;
