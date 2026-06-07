@@ -10,6 +10,9 @@
 
       init.defaultBranch = "main";
       pull.rebase = false;
+
+      # 第一次 push 自动建立 remote tracking，不用每次敲 `git push -u origin main`
+      push.autoSetupRemote = true;
     };
   };
 }
