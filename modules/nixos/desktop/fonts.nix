@@ -18,7 +18,7 @@ in
         lxgw-wenkai-screen  # 霞鹜文楷 屏幕阅读版 (中文阅读神器)
 
         # ===== 等宽 (终端 / 编辑器) =====
-        maple-mono.NF-CN    # 中英 2:1 宽度完美 + Nerd Font 图标 (最强中英混合等宽)
+        maple-mono.NF-CN-unhinted  # 中英 2:1 + Nerd Font + unhinted (2.5K 屏更锐利)
         nerd-fonts.jetbrains-mono  # 兜底，纯英文场景
 
         # ===== Emoji =====
