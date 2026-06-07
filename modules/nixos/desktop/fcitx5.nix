@@ -15,7 +15,7 @@ in
           # fcitx5 官方中文输入法套件：全拼 + 双拼 + 五笔 + 仓颉
           # 内置 cloud-pinyin 模块，敲不出的新词从云端 (谷歌 / 百度) 拉
           # 跟 rime 比：少了 YAML 自定义自由，多了开箱即用 + 永远跟得上网络新词
-          fcitx5-chinese-addons
+          qt6Packages.fcitx5-chinese-addons
           fcitx5-gtk
           kdePackages.fcitx5-configtool
         ];
