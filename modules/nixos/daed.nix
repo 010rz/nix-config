@@ -18,9 +18,8 @@ in
   config = lib.mkIf cfg.enable {
     services.daed = {
       enable = true;
-      # 不开防火墙，Web UI 只允许本机访问 (localhost:2023)
-      # 想从局域网手机/平板登 UI 改 true
-      openFirewall = false;
+      # openFirewall 默认就是关的，不显式写
+      # 想从局域网/平板访问 Web UI 时再加 openFirewall.{port,...} (它是 submodule 不是 bool)
     };
   };
 }
