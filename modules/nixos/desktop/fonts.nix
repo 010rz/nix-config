@@ -9,11 +9,13 @@ in
       enableDefaultPackages = false;
       fontDir.enable = true;
 
-      # 单字体策略：Maple Mono NF CN unhinted 一个打天下
-      # 覆盖：拉丁、CJK (2:1 宽度)、编程合字、Nerd Font 图标
-      # 不覆盖：彩色 emoji (浏览器/聊天里 emoji 会显示成方框或单色后备)
+      # 单字体策略：Maple Mono NF CN unhinted 担当所有文本
+      # 覆盖：拉丁、CJK (2:1 宽度)、编程合字、Nerd Font 单色图标
+      # + Noto Color Emoji 单独负责彩色 emoji (😀 🎉 ❤️)
+      # 两个字体相安无事：fontconfig 只在 emoji unicode 范围用 Noto
       packages = with pkgs; [
         maple-mono.NF-CN-unhinted
+        noto-fonts-color-emoji
       ];
 
       fontconfig = {
@@ -24,6 +26,7 @@ in
           serif = [ "Maple Mono NF CN" ];
           sansSerif = [ "Maple Mono NF CN" ];
           monospace = [ "Maple Mono NF CN" ];
+          emoji = [ "Noto Color Emoji" ];
         };
 
         # 高分屏渲染调优
