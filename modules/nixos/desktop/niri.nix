@@ -10,7 +10,8 @@ in
     # Wayland / Chromium-Electron 必需
     environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      WLR_NO_HARDWARE_CURSORS = "1";
+      # WLR_NO_HARDWARE_CURSORS = "1";  # 旧驱动 HW cursor bug 的变通，NVIDIA 570+ 已修
+      #                                  # 强制软件光标会掉帧，移除让 NVIDIA 走硬件加速
     };
 
     # 把"打开终端"的 MIME 默认指向 ghostty
