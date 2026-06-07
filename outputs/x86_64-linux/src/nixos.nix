@@ -26,6 +26,9 @@ let
           modules.desktop.printing.enable = true;
           modules.desktop.gaming.enable = true;
           modules.hardware.nvidia-prime.enable = true;
+          modules.hardware.nvidia-container.enable = true;
+          # 想串流游戏时把下行的 # 去掉
+          # modules.services.sunshine.enable = true;
         }
       ];
 
