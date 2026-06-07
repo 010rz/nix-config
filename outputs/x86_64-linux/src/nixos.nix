@@ -34,8 +34,7 @@ let
           modules.virtualisation.enable = true;
           # 想串流游戏时把下行的 # 去掉
           # modules.services.sunshine.enable = true;
-          # 想用 daed (eBPF 透明代理 Web UI) 时去掉下行 #
-          # modules.services.daed.enable = true;
+          modules.services.daed.enable = true;
         }
       ];
 
