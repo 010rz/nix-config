@@ -32,13 +32,10 @@ in
       # 已验证 (2026-06-07): EnableGpuFirmware=18, DynamicPowerManagement=3，powerd 运行无报错
       dynamicBoost.enable = lib.mkForce true;
 
-      # 用 stable，已验证在 nixos-26.05 (内核 7.0.11) 上启动正常 (2026-06-07)
-      #
-      # 当时跟着 ryan4yin 改成 production + dynamicBoost.enable + nvidia-drm.fbdev=1 后黑屏，
-      # 但那次失败在 unstable channel + 内核 7.0.10 上发生，
-      # 真正元凶大概率是 unstable 当时锁的内核与这台机器不兼容，跟这三项没单独验证过的因果。
-      # 想用 production / dynamicBoost / fbdev 的话：保持 stable channel 不变，
-      # 一次只改一项跑 `nixos-rebuild switch` + 重启，看哪一项打破启动。
+      # 在 nixos-26.05 channel 上，nvidiaPackages.stable 和 .production 都
+      # 解析到同一个 derivation (2026-06-07 验证：rfacrwa133a0xi...-nvidia-x11-595.71.05)
+      # 所以 ryan4yin 推的 production 在这个 channel 上跟 stable 完全等价，没必要换
+      # 未来 channel 更新后这两个 alias 可能分叉，到时候再考虑
       package = config.boot.kernelPackages.nvidiaPackages.stable;
 
       # 3) PRIME sync：外接显示器才能正常驱动
