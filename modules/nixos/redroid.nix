@@ -13,7 +13,10 @@ in
     ];
 
     virtualisation.oci-containers.containers.redroid = {
-      image = "redroid/redroid:15.0.0-latest";  # 含 32+64 bit + ARM 翻译 (libndk_translation 内置)
+      # 锁 Android 14：是当前内核 (CONFIG_DMABUF_HEAPS 没开) 能跑的最新版
+      # Android 15/16 强制要 DMA-BUF Heaps，会立刻 exit 129
+      # 想升 15/16 需在 boot.nix 加 boot.kernelPatches 启用 DMABUF_HEAPS 然后整核重编 (30-60 分钟)
+      image = "redroid/redroid:14.0.0-latest";
       autoStart = true;
       ports = [ "5555:5555" ];                  # ADB
       volumes = [ "/var/lib/redroid/data:/data" ];
