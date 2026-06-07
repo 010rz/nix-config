@@ -18,6 +18,10 @@ let
         "hosts/${hostName}"
       ])
       ++ [
+        # 上游模块（来自 flake input）
+        inputs.daeuniverse.nixosModules.daed
+      ]
+      ++ [
         # 在这里开启这台机器需要的模块
         {
           modules.desktop.wayland.enable = true;
@@ -30,6 +34,8 @@ let
           modules.virtualisation.enable = true;
           # 想串流游戏时把下行的 # 去掉
           # modules.services.sunshine.enable = true;
+          # 想用 daed (eBPF 透明代理 Web UI) 时去掉下行 #
+          # modules.services.daed.enable = true;
         }
       ];
 

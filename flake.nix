@@ -19,5 +19,8 @@
       url = "github:nix-community/haumea/v0.2.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # dae / daed 透明代理 (Linux 内核 eBPF) 官方 flake
+    daeuniverse.url = "github:daeuniverse/flake.nix";
   };
 }
