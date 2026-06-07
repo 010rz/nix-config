@@ -16,6 +16,11 @@
   services.power-profiles-daemon.enable = false;
   services.tlp.enable = false;
 
+  # thermald: Intel CPU 温控守护，预判式降频防过热 throttle
+  # 跟 TuneD 互补 (TuneD 调性能档；thermald 防过热)
+  # Arrow Lake-HX 在长时间游戏 / 编译时受益明显
+  services.thermald.enable = true;
+
   # 切 profile 命令：
   #   tuned-adm active   # 看当前 profile
   #   tuned-adm list     # 看所有可选 profile (TuneD 自带几十个，名字别按 PPD 那套猜)

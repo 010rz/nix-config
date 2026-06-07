@@ -8,5 +8,9 @@
   # 这条让 BlueZ 启动时主动解 block 并 power on（手动跑 `rfkill unblock bluetooth` 等价）
   hardware.bluetooth.powerOnBoot = true;
 
+  # 启用 BlueZ 实验特性，解锁 LE Audio / LC3 codec
+  # 新款蓝牙耳机 (AirPods / Sony WH-1000X / Bose NC) 走 LC3 音质比经典 SBC/AAC 强
+  hardware.bluetooth.settings.General.Experimental = true;
+
   # 蓝牙音频自动走 pipewire (我们已经启用)，wireplumber 负责 A2DP/HFP 后端
 }

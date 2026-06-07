@@ -21,7 +21,11 @@ in
     # 3) virt-manager 图形管理 (libvirt 的标准 GUI)
     programs.virt-manager.enable = true;
 
-    # 4) 用户加入 libvirtd 组 (跟 modules/nixos/users.nix 的 extraGroups 合并)
+    # 4) SPICE agent: VM 剪贴板 / 拖拽文件 / 窗口分辨率自适应
+    # (要 guest 里也装 spice-vdagent 包才完整生效)
+    services.spice-vdagentd.enable = true;
+
+    # 5) 用户加入 libvirtd 组 (跟 modules/nixos/users.nix 的 extraGroups 合并)
     users.users.${myvars.username}.extraGroups = [ "libvirtd" ];
   };
 
