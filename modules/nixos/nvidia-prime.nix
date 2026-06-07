@@ -46,7 +46,12 @@ in
     };
 
     # Niri/Wayland 在 NVIDIA 上的开关
-    # 只开 modeset=1。fbdev=1 也可能有用但未在这台机器上单独验证过——可以另开一行试。
-    boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+    # modeset=1 启用 KMS (Wayland 必需)
+    # fbdev=1 让 nvidia 驱动早接管 /dev/fb0，避免开机过程中的黑闪
+    # 已在 stable 26.05 + 内核 7.0.11 + RTX 5080 Max-Q 上单变量验证可用 (2026-06-07)
+    boot.kernelParams = [
+      "nvidia-drm.modeset=1"
+      "nvidia-drm.fbdev=1"
+    ];
   };
 }
