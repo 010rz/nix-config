@@ -54,5 +54,17 @@ in
       "nvidia-drm.modeset=1"
       "nvidia-drm.fbdev=1"
     ];
+
+    # NVIDIA + Wayland 用户会话环境变量
+    # 必须放在 NixOS 层（不能用 home-manager 的 home.sessionVariables）：
+    # HM 那个只写到 profile.d/.sh，登录 shell 才 source；
+    # Niri 从 gdm → systemd 启动不走登录 shell，所以 HM 那条路对 Wayland 会话无效。
+    # 走 environment.sessionVariables → /etc/set-environment → PAM 注入会话 → systemd 继承
+    environment.sessionVariables = {
+      LIBVA_DRIVER_NAME = "nvidia";          # VA-API 视频解码走 NVIDIA NVDEC
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";  # OpenGL Vendor Neutral Dispatch 选 NVIDIA
+      NVD_BACKEND = "direct";                # nvidia-vaapi-driver 用 direct 模式
+      GBM_BACKEND = "nvidia-drm";            # Wayland buffer 走 nvidia-drm
+    };
   };
 }
