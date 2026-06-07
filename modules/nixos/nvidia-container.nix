@@ -22,6 +22,14 @@ in
 
       # 默认网络启用 DNS，容器之间可以用名字互相访问
       defaultNetwork.settings.dns_enabled = true;
+
+      # 每周清一次未引用的 image / volume / network
+      # 防止长期累积撑爆 /var/lib/containers
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+        flags = [ "--all" ];
+      };
     };
   };
 
