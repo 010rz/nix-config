@@ -28,6 +28,10 @@ in
       open = true;
       nvidiaSettings = true;
 
+      # Optimus 笔电 CPU↔GPU 动态功耗分配；启用后注册 nvidia-powerd.service
+      # 已验证 (2026-06-07): EnableGpuFirmware=18, DynamicPowerManagement=3，powerd 运行无报错
+      dynamicBoost.enable = lib.mkForce true;
+
       # 用 stable，已验证在 nixos-26.05 (内核 7.0.11) 上启动正常 (2026-06-07)
       #
       # 当时跟着 ryan4yin 改成 production + dynamicBoost.enable + nvidia-drm.fbdev=1 后黑屏，
