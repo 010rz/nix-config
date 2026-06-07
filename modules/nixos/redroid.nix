@@ -17,10 +17,10 @@ in
       # 想升 15/16 需在 boot.nix 加 boot.kernelPatches 启用 DMABUF_HEAPS，会触发完整内核重编 30-60 分钟
       image = "redroid/redroid:14.0.0-latest";
       autoStart = true;
-      ports = [ "5555:5555" ];                  # ADB
       volumes = [ "/var/lib/redroid/data:/data" ];
       extraOptions = [
         "--privileged"
+        "--network=host"                        # adbd 直接监听宿主 5555，不走 podman 端口代理
         "--device=/dev/dri"                     # iGPU 直通给 Mesa 用
       ];
       # redroid 启动参数（androidboot.* 等价于 Android 内核 cmdline）
