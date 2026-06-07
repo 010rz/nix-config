@@ -19,9 +19,8 @@ in
     hardware.nvidia = {
       modesetting.enable = true; # Wayland 必需
 
-      # Optimus suspend：必须 enable = true 才能让驱动备份 VRAM 到 RAM 跨 suspend
-      # （false 时驱动不参与，唤醒会乱）
-      # 之前 unstable + 7.0.10 上试过失败，现在 stable + 7.0.11 重试
+      # Optimus suspend：true 让驱动备份 VRAM 到 RAM 跨 suspend（false 时驱动不参与，唤醒会乱）
+      # 已在 stable 26.05 + 内核 7.0.11 + 这台 RTX 5080 Max-Q 上验证合盖唤醒正常 (2026-06-07)
       powerManagement.enable = true;
       powerManagement.finegrained = false;  # finegrained 是 offload 模式专用
 
@@ -29,12 +28,13 @@ in
       open = true;
       nvidiaSettings = true;
 
-      # ⚠️ 这台机器 (MSI Titan 16 AI 2025 + RTX 5080 Max-Q) 试过同时启用以下三项：
-      #     package = nvidiaPackages.production
-      #     dynamicBoost.enable = true
-      #     boot.kernelParams += "nvidia-drm.fbdev=1"
-      # 结果开机黑屏。回滚到 stable + 不启用 dynamicBoost + 不加 fbdev。
-      # 如果未来想再试，一次只改一个，单独验证哪个是元凶。
+      # 用 stable，已验证在 nixos-26.05 (内核 7.0.11) 上启动正常 (2026-06-07)
+      #
+      # 当时跟着 ryan4yin 改成 production + dynamicBoost.enable + nvidia-drm.fbdev=1 后黑屏，
+      # 但那次失败在 unstable channel + 内核 7.0.10 上发生，
+      # 真正元凶大概率是 unstable 当时锁的内核与这台机器不兼容，跟这三项没单独验证过的因果。
+      # 想用 production / dynamicBoost / fbdev 的话：保持 stable channel 不变，
+      # 一次只改一项跑 `nixos-rebuild switch` + 重启，看哪一项打破启动。
       package = config.boot.kernelPackages.nvidiaPackages.stable;
 
       # 3) PRIME sync：外接显示器才能正常驱动
@@ -46,7 +46,7 @@ in
     };
 
     # Niri/Wayland 在 NVIDIA 上的开关
-    # ⚠️ 只保留 modeset=1，fbdev=1 在这台机器上会黑屏 (2026-06-07)
+    # 只开 modeset=1。fbdev=1 也可能有用但未在这台机器上单独验证过——可以另开一行试。
     boot.kernelParams = [ "nvidia-drm.modeset=1" ];
   };
 }
