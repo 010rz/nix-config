@@ -15,10 +15,8 @@ in
     '';
 
     # 2) libvirt daemon + qemu
-    virtualisation.libvirtd = {
-      enable = true;
-      qemu.swtpm.enable = true;  # 软 TPM 模拟，跑 Windows 11 客户机需要
-    };
+    virtualisation.libvirtd.enable = true;
+    # 想跑 Win11 客户机时再加: virtualisation.libvirtd.qemu.swtpm.enable = true;
 
     # 3) virt-manager 图形管理 (libvirt 的标准 GUI)
     programs.virt-manager.enable = true;
