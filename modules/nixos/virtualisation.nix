@@ -20,13 +20,10 @@ in
       qemu.swtpm.enable = true;  # 软 TPM 模拟，跑 Windows 11 客户机需要
     };
 
-    # 3) SPICE USB 重定向 (远程查看时把宿主 USB 设备转发到 VM)
-    virtualisation.spiceUSBRedirection.enable = true;
-
-    # 4) virt-manager 图形管理 (libvirt 的标准 GUI)
+    # 3) virt-manager 图形管理 (libvirt 的标准 GUI)
     programs.virt-manager.enable = true;
 
-    # 5) 用户加入 libvirtd 组 (跟 modules/nixos/users.nix 的 extraGroups 合并)
+    # 4) 用户加入 libvirtd 组 (跟 modules/nixos/users.nix 的 extraGroups 合并)
     users.users.${myvars.username}.extraGroups = [ "libvirtd" ];
   };
 
