@@ -17,7 +17,15 @@
   services.tlp.enable = false;
 
   # 切 profile 命令：
-  #   tuned-adm active                 # 看当前
-  #   tuned-adm profile performance    # 切到性能档
-  #   tuned-adm list                   # 看所有 profile
+  #   tuned-adm active   # 看当前 profile
+  #   tuned-adm list     # 看所有可选 profile (TuneD 自带几十个，名字别按 PPD 那套猜)
+  #
+  # 这台机器常用的几个 profile：
+  #   balanced                     - 默认日常
+  #   laptop-ac-powersave          - 插电桌面常驻
+  #   laptop-battery-powersave     - 笔电外出靠电池
+  #   accelerator-performance      - 跑游戏 / 编译 / AI 推理 / GPU 容器
+  #   throughput-performance       - 长时大吞吐工作负载
+  #   virtual-host                 - 准备跑 KVM 虚拟机宿主前切这个
+  #   powersave                    - 极致省电（屏幕外卖座，会有点卡）
 }
