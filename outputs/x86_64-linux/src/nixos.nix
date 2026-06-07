@@ -30,7 +30,7 @@ let
           modules.virtualisation.enable = true;
           # 想串流游戏时把下行的 # 去掉
           # modules.services.sunshine.enable = true;
-          modules.services.daed.enable = true;
+          modules.services.clash-verge.enable = true;
         }
       ];
 
