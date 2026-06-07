@@ -1,10 +1,8 @@
 {
   # Bluetooth daemon (BlueZ)
+  # dms-shell 自带的蓝牙 panel 通过 DBus 跟 BlueZ 通信，所以不需要 blueman GUI
+  # 命令行兜底：bluetoothctl → scan on → pair / connect / trust
   hardware.bluetooth.enable = true;
 
-  # blueman: GUI 配对/管理 (blueman-applet 出系统托盘图标，blueman-manager 出独立窗口)
-  # 命令行也可以：bluetoothctl → scan on / pair / connect
-  services.blueman.enable = true;
-
-  # 蓝牙音频走 pipewire (我们已经启用了 pipewire)，pipewire 会自动拉蓝牙后端 wireplumber
+  # 蓝牙音频自动走 pipewire (我们已经启用)，wireplumber 负责 A2DP/HFP 后端
 }
