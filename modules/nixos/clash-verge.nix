@@ -10,7 +10,7 @@ in
   # (原 clash-verge 归档后 nixpkgs 把 package 切到 rev 分支了，2.4.7)
   config = lib.mkIf cfg.enable {
     programs.clash-verge = {
-      enable = true;
+      enable = false;
       autoStart = false;   # 不开机自启，自己在 Niri 启动器开
       serviceMode = true;  # 后台 daemon 模式，关 GUI 代理不断
       tunMode = true;      # TUN 模式系统级劫持流量

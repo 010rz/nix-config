@@ -31,7 +31,7 @@ let
           # 想串流游戏时把下行的 # 去掉
           # modules.services.sunshine.enable = true;
           modules.services.clash-verge.enable = true;
-          modules.services.redroid.enable = true;
+          modules.services.redroid.enable = false; # 临时关闭，等想清楚 host 网络冲突再开
         }
       ];
 
