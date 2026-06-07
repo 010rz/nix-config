@@ -20,5 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # 游戏相关优化模块 (pipewire 低延迟、steam platform 优化等)
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";  # 共用我们这套 nixpkgs，避免 2GB 重复
+    };
   };
 }
