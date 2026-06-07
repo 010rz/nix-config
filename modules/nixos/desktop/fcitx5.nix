@@ -1,6 +1,21 @@
 { lib, config, pkgs, ... }:
 let
   cfg = config.modules.desktop.fcitx5;
+
+  # rime-ice (雾凇拼音) —— 维护活跃，覆盖网络用语 / ACG / 专业词汇
+  # https://github.com/iDvel/rime-ice
+  rime-ice-src = pkgs.fetchFromGitHub {
+    owner = "iDvel";
+    repo = "rime-ice";
+    rev = "f75919b69a06b2f81b84a991028acdf05dc5ec75";
+    hash = "sha256-/EQMUkmTZAG0t7sLA3/GrnrS3RE6ouwjMsyOf/h0yuc=";
+  };
+
+  # 把裸仓库包装成 fcitx5-rime 期望的 share/rime-data 布局
+  rime-ice = pkgs.runCommand "rime-ice" { } ''
+    mkdir -p $out/share/rime-data
+    cp -r ${rime-ice-src}/* $out/share/rime-data/
+  '';
 in
 {
   config = lib.mkIf cfg.enable {
@@ -12,7 +27,8 @@ in
         waylandFrontend = true;
 
         addons = with pkgs; [
-          fcitx5-rime
+          # 用自定义 rime-data 覆盖默认：rime-ice 优先 > rime-data 兜底
+          (fcitx5-rime.override { rimeDataPkgs = [ rime-data rime-ice ]; })
           fcitx5-gtk
           kdePackages.fcitx5-configtool
         ];
